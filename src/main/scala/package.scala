@@ -143,5 +143,21 @@ package object Huffman {
 			else
 				combinar_arboles_en_lista(arboles.tail.tail, arbol2, arbol1)
 		}
-	}  
+	}
+
+	def hastaQue(cond:List[ArbolH]=>Boolean, mezclar:List[ArbolH]=>List[ArbolH] )(listaOrdenadaArboles:List[ArbolH]): List[ArbolH] = {
+		def aux(cond:List[ArbolH]=>Boolean, mezclar:List[ArbolH]=>List[ArbolH], result:List[ArbolH]):List[ArbolH] = {
+			if(cond(result))
+				result
+			else
+				aux(cond, mezclar, mezclar(result))
+		}
+		aux(cond, mezclar, listaOrdenadaArboles)
+	}
+
+	def crearArbolDeHuffman(cars:List[Char]):ArbolH = {
+		val frecuencias = ocurrencias(cars)
+		val lista_de_hojas = listaDeHojasOrdenadas(frecuencias)
+		hastaQue(listaUnitaria, combinar)(lista_de_hojas).head
+	}
 }
