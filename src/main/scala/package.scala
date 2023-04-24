@@ -168,7 +168,6 @@ package object Huffman {
 		hastaQue(listaUnitaria, combinar)(hojas).head
 	}
 //Parte 3:Decodificar
-
 	type Bit = Int
 	def decodificar(arbol: ArbolH, bits: List[Bit]): List[Char] = {
 		def decodificarRec(subarbol: ArbolH, bitsRestantes: List[Bit], resultado: List[Char]): List[Char] = subarbol match {
@@ -182,6 +181,19 @@ package object Huffman {
 		decodificarRec(arbol, bits, List.empty[Char])
 	}
 //Parte 4a:Codificando usando arboles de Huffman
+	def codificar(arbol: ArbolH)(texto: List[Char]): List[Bit] = {
+		def buscar(car: Char, arbol: ArbolH): List[Bit] = arbol match {
+			case Hoja(_, _) => Nil
+			case Nodo(izq, der, _, _) =>
+			if (contieneCaracter(car, izq)) 0 :: buscar(car, izq)
+			else 1 :: buscar(car, der)
+		}		
+		def contieneCaracter(car: Char, arbol: ArbolH): Boolean = arbol match {
+			case Hoja(c, _) => car == c
+			case Nodo(izq, der, _, _) => contieneCaracter(car, izq) || contieneCaracter(car, der)
+		}
+		texto.flatMap(caracter => buscar(caracter, arbol))
+	}
 
 
 

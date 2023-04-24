@@ -49,6 +49,6 @@ val lc=cadenaALista("La_vida_es_dura")
 val lho=listaDeHojasOrdenadas(ocurrencias(lc))
 listaUnitaria(lho)
 crearArbolDeHuffman(lc)
+val mensajeCodificado = codificar(crearArbolDeHuffman(lc))(lc)
 //Prueba decodificar
-val listaDeBits: List[Bit] = List(1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0)
-decodificar(crearArbolDeHuffman(lc), listaDeBits)
+decodificar(crearArbolDeHuffman(lc), mensajeCodificado)
