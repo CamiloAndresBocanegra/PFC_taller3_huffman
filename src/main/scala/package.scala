@@ -143,5 +143,18 @@ package object Huffman {
 			else
 				combinar_arboles_en_lista(arboles.tail.tail, arbol2, arbol1)
 		}
-	}  
+	}
+
+	def hastaQue(cond: List[ArbolH] => Boolean, mezclar: List[ArbolH] => List[ArbolH])(listaOrdenadaArboles: List[ArbolH]): List[ArbolH] = {
+		def iterar(lista: List[ArbolH]): List[ArbolH] = {
+			if (cond(lista)) {
+			lista
+			} else {
+			iterar(mezclar(lista))
+			}
+		}
+
+		iterar(listaOrdenadaArboles)
+		}
+  
 }
