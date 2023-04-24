@@ -2,7 +2,7 @@ package object Huffman {
 	abstract class ArbolH
 	case class Nodo(izq: ArbolH, der: ArbolH, cars: List[Char], peso: Int) extends ArbolH
 	case class Hoja(car: Char, peso: Int) extends ArbolH
-
+//Parte 1 : Funciones esenciales y sencillas
 	def peso(arbol: ArbolH): Int = arbol match{
 		case Nodo(i, d, c, peso) => peso
 		case Hoja(car, peso) => peso
@@ -15,7 +15,12 @@ package object Huffman {
 
 	def hacerNodoArbolH(izq: ArbolH, der: ArbolH) =
 		Nodo(izq, der, cars(izq) ::: cars(der), peso(izq) + peso(der))
-
+//Parte 2:Construyendo Arboles de Huffman
+/**
+* En este taller estamos trabajando con listas de caracteres.
+* La funcion cadenaALista crea una lista de caracteres correspondiente a una cadena dada
+*/
+	def cadenaALista (cad : String) : List[Char] = cad.toList
 	def ocurrencias(cars: List[Char]): List[(Char, Int)] = {
 		def contar_car_en_lista(c:Char, l:List[Char]):Int = {
 			def contar_car_en_lista_aux(c:Char, l:List[Char], result:Int):Int = {
@@ -162,6 +167,24 @@ package object Huffman {
 		val hojas = listaDeHojasOrdenadas(frecuencias)
 		hastaQue(listaUnitaria, combinar)(hojas).head
 	}
+//Parte 3:Decodificar
+
+	type Bit = Int
+	def decodificar(arbol: ArbolH, bits: List[Bit]): List[Char] = {
+		def decodificarRec(subarbol: ArbolH, bitsRestantes: List[Bit], resultado: List[Char]): List[Char] = subarbol match {
+			case Hoja(caracter, _) => decodificarRec(arbol, bitsRestantes, resultado :+ caracter)
+			case Nodo(izquierda, derecha, _, _) => bitsRestantes.headOption match {
+			case Some(0) => decodificarRec(izquierda, bitsRestantes.tail, resultado)
+			case Some(1) => decodificarRec(derecha, bitsRestantes.tail, resultado)
+			case _ => resultado 
+			}
+		}
+		decodificarRec(arbol, bits, List.empty[Char])
+	}
+//Parte 4a:Codificando usando arboles de Huffman
+
+
+
 
 
 }

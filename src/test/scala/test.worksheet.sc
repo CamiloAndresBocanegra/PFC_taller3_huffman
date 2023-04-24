@@ -40,3 +40,15 @@ hastaQue(condicion, mezclar)(arboles)
 //Prueba crearArbolDeHuffman
 val texto = List('a', 'b', 'c', 'a', 'b', 'a')
 crearArbolDeHuffman(texto)
+//Prueba profesor
+val arbolEjemplo = hacerNodoArbolH (
+hacerNodoArbolH (Hoja('x', 1 ) , Hoja('e' ,1)),
+Hoja('t',2)
+)
+val lc=cadenaALista("La_vida_es_dura")
+val lho=listaDeHojasOrdenadas(ocurrencias(lc))
+listaUnitaria(lho)
+crearArbolDeHuffman(lc)
+//Prueba decodificar
+val listaDeBits: List[Bit] = List(1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0)
+decodificar(crearArbolDeHuffman(lc), listaDeBits)
