@@ -229,6 +229,4 @@ package object Huffman {
 		texto.flatMap(codigoEnBits(tabla))
 	}
 
-
-
 }
