@@ -22,5 +22,6 @@ val arbol6 = Nodo(Hoja('a', 1), Hoja('b', 2), List('a', 'b'), 3)
 val arbol7 = Nodo(Hoja('c', 4), Hoja('d', 5), List('c', 'd'), 9)
 val arboles = List(arbol6, arbol7)
 val condicion = (lista: List[ArbolH]) => lista.length <= 1
-val mezclar = (lista: List[ArbolH]) => combinar(lista)
+val mezclar = (lista: List[ArbolH]) => combinar(arboles)
 hastaQue(condicion, mezclar)(arboles) // debe imprimir List(Nodo(Hoja(a,1),Nodo(Hoja(b,2),Nodo(Hoja(c,4),Hoja(d,5),List(c, d),9),List(a, b, c, d),12)))
+
