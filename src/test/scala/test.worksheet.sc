@@ -54,3 +54,4 @@ val mensajeCodificado2 = codificarRapido(crearArbolDeHuffman(lc))(lc)
 //Prueba decodificar
 decodificar(crearArbolDeHuffman(lc), mensajeCodificado1)
 decodificar(crearArbolDeHuffman(lc), mensajeCodificado2)
+
