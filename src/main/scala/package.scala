@@ -158,19 +158,10 @@ package object Huffman {
 		}
 	
 	def crearArbolDeHuffman(cars: List[Char]): ArbolH = {
-	val frecs = ocurrencias(cars)
-	val hojas = listaDeHojasOrdenadas(frecs)
-		def construirArbol(listaArboles: List[ArbolH]): ArbolH = {
-			if (listaUnitaria(listaArboles))
-			listaArboles.head
-			else {
-			val nuevoArbol = hacerNodoArbolH(listaArboles.head, listaArboles.tail.head)
-			val listaNueva = (nuevoArbol :: listaArboles.drop(2)).sortBy(peso)
-			construirArbol(listaNueva)
-			}
-		}
+		val frecuencias = ocurrencias(cars)
+		val hojas = listaDeHojasOrdenadas(frecuencias)
+		hastaQue(listaUnitaria, combinar)(hojas).head
+	}
 
-		construirArbol(hojas)
-		}
-	
+
 }
