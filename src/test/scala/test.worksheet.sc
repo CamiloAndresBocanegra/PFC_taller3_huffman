@@ -52,6 +52,37 @@ crearArbolDeHuffman(lc)
 val mensajeCodificado1 = codificar(crearArbolDeHuffman(lc))(lc)
 val mensajeCodificado2 = codificarRapido(crearArbolDeHuffman(lc))(lc)
 //Prueba decodificar
+val tabla = convertir(crearArbolDeHuffman(lc))
+codigoEnBits(tabla)('_')
 decodificar(crearArbolDeHuffman(lc), mensajeCodificado1)
 decodificar(crearArbolDeHuffman(lc), mensajeCodificado2)
 
+val arbol = crearArbolDeHuffman(List('a', 'b', 'c', 'd', 'e', 'f'))
+val texto1 = cadenaALista("abcdef")
+val bits = codificarRapido(arbol)(texto1)
+val bits2 = codificar(arbol)(texto1)
+println(bits)
+println(bits2)
+
+decodificar(arbol, bits)
+decodificar(arbol, bits2)
+
+val tabla10 = convertir(crearArbolDeHuffman(List('a', 'b', 'c', 'd', 'e', 'f')))
+println(tabla10)
+
+
+val tabla_ = List(('a', List(0,0)), ('b', List(0,1)), ('c', List(1)))
+codigoEnBits(tabla_)('a') // Debe devolver List(0,0)
+codigoEnBits(tabla_)('b') // Debe devolver List(0,1)
+codigoEnBits(tabla_)('c') // Debe devolver List(1)
+
+val tablaA = List(('a', List(0, 0)), ('b', List(0, 1)))
+val tablaB = List(('c', List(1, 0)), ('d', List(1, 1)))
+
+val tablamezclada = mezclarTablasDeCodigos(tablaA, tablaB) 
+
+
+val lcd = cadenaALista("La_vida_es_dura")
+val arbolDePrueba = crearArbolDeHuffman(lcd)
+val tabla5 = convertir(arbolDePrueba)
+println(tabla5)

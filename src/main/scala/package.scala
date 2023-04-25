@@ -194,39 +194,44 @@ package object Huffman {
 		}
 		texto.flatMap(caracter => buscar(caracter, arbol))
 	}
-
+//Parte 4b:Codificando Usando tablas de codigos
 	type TablaCodigos = List[(Char, List[Bit])]
 	def codigoEnBits(tabla: TablaCodigos)(car: Char): List[Bit] = {
-	tabla.find(_._1 == car) match {
-		case Some((_, bits)) => bits
-		case None => Nil
+		tabla.find(_._1 == car).map(_._2).getOrElse(List.empty)
 	}
-	}
-	
+
 	def mezclarTablasDeCodigos(a: TablaCodigos, b: TablaCodigos): TablaCodigos = {
-		def agregarPrefijo(cod: List[Bit], pref: Bit): List[Bit] = pref :: cod
+		def agregarBits(bits: List[Bit], tabla: TablaCodigos): TablaCodigos =
+			tabla.map { case (c, l) => (c, bits ::: l) }
 		
-		val tablaA = a.map { case (c, cod) => (c, agregarPrefijo(cod, 0)) }
-		val tablaB = b.map { case (c, cod) => (c, agregarPrefijo(cod, 1)) }
-		
-		tablaA ++ tablaB
+		agregarBits(0 :: Nil, a) ::: agregarBits(1 :: Nil, b)
 	}
+
 
 	def convertir(arbol: ArbolH): TablaCodigos = arbol match {
-		case Hoja(car, _) => List((car, List()))
-		case Nodo(izq, der, _, _) => {
-			val tablaIzq = convertir(izq)
-			val tablaDer = convertir(der)
-			mezclarTablasDeCodigos(tablaIzq, tablaDer).map{case (car, bits) =>
-			if (tablaIzq.exists(_._1 == car)) (car, 0 :: bits)
-			else (car, 1 :: bits)
-			}
-		}
+		case Hoja(car, _) => List((car, Nil))
+		case Nodo(izq, der, _, _) =>
+			val tablaIzq = convertir(izq).map { case (c, bits) => (c, 0 :: bits) }
+			val tablaDer = convertir(der).map { case (c, bits) => (c, 1 :: bits) }
+			mezclarTablasDeCodigos(tablaIzq, tablaDer)
 	}
 
+
 	def codificarRapido(arbol: ArbolH)(texto: List[Char]): List[Bit] = {
-		val tabla = convertir(arbol)
-		texto.flatMap(codigoEnBits(tabla))
+	val tabla = convertir(arbol)
+	
+		def codificarCaracter(c: Char): List[Bit] = {
+			tabla.find(_._1 == c) match {
+			case Some((_, bits)) => bits
+			case None => Nil
+			}
+		}
+	
+	texto.flatMap(codificarCaracter)
 	}
+
+
+
+
 
 }
