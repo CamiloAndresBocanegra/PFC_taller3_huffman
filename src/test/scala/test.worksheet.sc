@@ -63,7 +63,8 @@ val bits = codificarRapido(arbol)(texto1)
 val bits2 = codificar(arbol)(texto1)
 println(bits)
 println(bits2)
-
+val arbolconvertido = convertir(arbol)
+arbolconvertido
 decodificar(arbol, bits)
 decodificar(arbol, bits2)
 
@@ -80,7 +81,7 @@ val tablaA = List(('a', List(0, 0)), ('b', List(0, 1)))
 val tablaB = List(('c', List(1, 0)), ('d', List(1, 1)))
 
 val tablamezclada = mezclarTablasDeCodigos(tablaA, tablaB) 
-
+tablamezclada
 
 val lcd = cadenaALista("La_vida_es_dura")
 val arbolDePrueba = crearArbolDeHuffman(lcd)

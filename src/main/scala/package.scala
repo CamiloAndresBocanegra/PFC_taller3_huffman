@@ -197,40 +197,36 @@ package object Huffman {
 //Parte 4b:Codificando Usando tablas de codigos
 	type TablaCodigos = List[(Char, List[Bit])]
 	def codigoEnBits(tabla: TablaCodigos)(car: Char): List[Bit] = {
-		tabla.find(_._1 == car).map(_._2).getOrElse(List.empty)
+		tabla.find(_._1 == car) match {
+		case Some((_, bits)) => bits
+		case None            => Nil
+		}
 	}
-
+	
 	def mezclarTablasDeCodigos(a: TablaCodigos, b: TablaCodigos): TablaCodigos = {
-		def agregarBits(bits: List[Bit], tabla: TablaCodigos): TablaCodigos =
-			tabla.map { case (c, l) => (c, bits ::: l) }
-		
-		agregarBits(0 :: Nil, a) ::: agregarBits(1 :: Nil, b)
+		def agregarPrefijo(cod: List[Bit], pref: Bit): List[Bit] = pref :: cod
+
+		val tablaAB = a.map { case (c, cod) => (c, agregarPrefijo(cod, 0)) } ++
+		b.map { case (c, cod) => (c, agregarPrefijo(cod, 1)) }
+
+		tablaAB
 	}
 
 
-	def convertir(arbol: ArbolH): TablaCodigos = arbol match {
-		case Hoja(car, _) => List((car, Nil))
+	def convertir(arbol: ArbolH): TablaCodigos = {
+		def recConvertir(arbol: ArbolH, bits: List[Bit]): TablaCodigos = arbol match {
+		case Hoja(car, _) => List((car, bits.reverse))
 		case Nodo(izq, der, _, _) =>
-			val tablaIzq = convertir(izq).map { case (c, bits) => (c, 0 :: bits) }
-			val tablaDer = convertir(der).map { case (c, bits) => (c, 1 :: bits) }
-			mezclarTablasDeCodigos(tablaIzq, tablaDer)
+			recConvertir(izq, 0 :: bits) ++ recConvertir(der, 1 :: bits)
+		}
+		recConvertir(arbol, Nil)
 	}
 
 
 	def codificarRapido(arbol: ArbolH)(texto: List[Char]): List[Bit] = {
-	val tabla = convertir(arbol)
-	
-		def codificarCaracter(c: Char): List[Bit] = {
-			tabla.find(_._1 == c) match {
-			case Some((_, bits)) => bits
-			case None => Nil
-			}
-		}
-	
-	texto.flatMap(codificarCaracter)
+		val tabla = convertir(arbol)
+		texto.flatMap(codigoEnBits(tabla))
 	}
-
-
 
 
 
