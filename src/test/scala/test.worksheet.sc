@@ -81,6 +81,11 @@ val tablaA = List(('a', List(0, 0)), ('b', List(0, 1)))
 val tablaB = List(('c', List(1, 0)), ('d', List(1, 1)))
 
 val tablamezclada = mezclarTablasDeCodigos(tablaA, tablaB) 
+
+val tablah = List(('a', List(0, 1, 0)), ('b', List(0, 1, 0)))
+val tablaj = List(('c', List(1, 0, 1)), ('d', List(1, 1, 1)))
+
+val tablamezclada2 = mezclarTablasDeCodigos(tablah, tablaj) 
 tablamezclada
 
 val lcd = cadenaALista("La_vida_es_dura")
