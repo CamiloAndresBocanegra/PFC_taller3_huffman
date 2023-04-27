@@ -6,7 +6,7 @@ peso(arbol1) // debe imprimir 3
 peso(arbol2) // debe imprimir 7
 //Prueba cars
 cars(arbol1) // debería imprimir List('a', 'b')
-cars(arbol2) // debería imprimir List('c') 
+cars(arbol2) // debería imprimir List('a','b','c') 
 //Prueba hacerNodoArbolH
 val izq = Hoja('a', 2)
 val der = Hoja('b', 3)
