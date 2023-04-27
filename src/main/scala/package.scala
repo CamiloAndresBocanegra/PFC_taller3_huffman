@@ -109,36 +109,33 @@ package object Huffman {
 	}
 
 	def combinar(arboles: List[ArbolH]):List[ArbolH] = {
+		def filtrar_lista(l:List[ArbolH], filtro:ArbolH=>Boolean):List[ArbolH] = {
+			def filtrar_lista_aux(l:List[ArbolH], filtro:ArbolH=>Boolean, result:List[ArbolH]):List[ArbolH] = {
+				if(l.isEmpty)
+					result
+				else
+					if(filtro(l.head))
+						filtrar_lista_aux(l.tail, filtro, result ++ List(l.head))
+					else
+						filtrar_lista_aux(l.tail,filtro,result)
+			}
+			filtrar_lista_aux(l, filtro, List())
+		}
+		def combinar_arboles_en_lista(l:List[ArbolH], arbol_mayor:ArbolH, arbol_menor:ArbolH):List[ArbolH] = {
+			val combinacion = Nodo(arbol_mayor, arbol_menor, cars(arbol_mayor) ++ cars(arbol_menor), peso(arbol_mayor) + peso(arbol_menor))
+
+			def peso_menor_igual_que(n:Int):ArbolH=>Boolean = (arbol:ArbolH)=> (peso(arbol) <= n)
+			def peso_mayor_que(n:Int):ArbolH=>Boolean = (arbol:ArbolH)=> ( peso(arbol) > n)
+			
+			filtrar_lista(l, peso_menor_igual_que(peso(combinacion))) ++ List(combinacion) ++ filtrar_lista(l, peso_mayor_que(peso(combinacion)))
+		}
+			
 		if(arboles.isEmpty || listaUnitaria(arboles))
 			arboles
 		else
 		{
 			val arbol1 = arboles.head
 			val arbol2 = arboles.tail.head
-			def combinar_arboles_en_lista(l:List[ArbolH], arbol_mayor:ArbolH, arbol_menor:ArbolH):List[ArbolH] = {
-				def filtrar_lista(l:List[ArbolH], filtro:ArbolH=>Boolean):List[ArbolH] = {
-					def filtrar_lista_aux(l:List[ArbolH], filtro:ArbolH=>Boolean, result:List[ArbolH]):List[ArbolH] = {
-						if(l.isEmpty)
-							result
-						else
-							if(filtro(l.head))
-								filtrar_lista_aux(l.tail, filtro, result ++ List(l.head))
-							else
-								filtrar_lista_aux(l.tail,filtro,result)
-					}
-					filtrar_lista_aux(l, filtro, List())
-				}
-				val lista_de_cars = cars(arbol_mayor) ++ cars(arbol_menor)
-				val combinacion = Nodo(arbol_mayor, arbol_menor, lista_de_cars, peso(arbol_mayor) + peso(arbol_menor))
-
-				def peso_menor_igual_que(n:Int):ArbolH=>Boolean = {
-					(arbol:ArbolH)=> ( peso(arbol) <= n )
-				}
-				def peso_mayor_que(n:Int):ArbolH=>Boolean = {
-					(arbol:ArbolH)=> ( peso(arbol) > n)
-				}
-				filtrar_lista(l, peso_menor_igual_que(peso(combinacion))) ++ List(combinacion) ++ filtrar_lista(l, peso_mayor_que(peso(combinacion)))
-			}
 			if(peso(arbol1) > peso(arbol2))
 				combinar_arboles_en_lista(arboles.tail.tail, arbol1, arbol2)
 			else
@@ -148,15 +145,14 @@ package object Huffman {
 
 	def hastaQue(cond: List[ArbolH] => Boolean, mezclar: List[ArbolH] => List[ArbolH])(listaOrdenadaArboles: List[ArbolH]): List[ArbolH] = {
 		def iterar(lista: List[ArbolH]): List[ArbolH] = {
-			if (cond(lista)) {
-			lista
-			} else {
-			iterar(mezclar(lista))
-			}
+			if (cond(lista)) 
+				lista
+			else
+				iterar(mezclar(lista))
 		}
 
 		iterar(listaOrdenadaArboles)
-		}
+	}
 	
 	def crearArbolDeHuffman(cars: List[Char]): ArbolH = {
 		val frecuencias = ocurrencias(cars)
