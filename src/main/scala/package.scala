@@ -97,7 +97,7 @@ package object Huffman {
 				val tupla_menor = encontrar_tupla_menor(f)
 				val nueva_hoja = Hoja(tupla_menor(0), tupla_menor(1))
 				val lista_sin_tupla_menor = eliminar_car_de_lista(f, tupla_menor(0))
-				listaDeHojasOrdenadas_aux(lista_sin_tupla_menor, tupla_menor(1), result ++ List(nueva_hoja))	
+				listaDeHojasOrdenadas_aux(lista_sin_tupla_menor, result ++ List(nueva_hoja))	
 			}
 		}
 
