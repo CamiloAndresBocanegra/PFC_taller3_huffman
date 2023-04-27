@@ -86,10 +86,10 @@ package object Huffman {
 					else
 						aux(l.tail, result)
 			}
-			aux(l, l.head)
+			aux(l.tail, l.head)
 		}
 		
-		def listaDeHojasOrdenadas_aux(f:List[(Char,Int)], min:Int, result:List[Hoja]):List[Hoja] = {
+		def listaDeHojasOrdenadas_aux(f:List[(Char,Int)], result:List[Hoja]):List[Hoja] = {
 			if(f.isEmpty)
 				result
 			else
@@ -101,7 +101,7 @@ package object Huffman {
 			}
 		}
 
-		listaDeHojasOrdenadas_aux(frecs, 0, List())
+		listaDeHojasOrdenadas_aux(frecs, List())
 	}
 
 	def listaUnitaria(arboles:List[ArbolH]):Boolean = {
