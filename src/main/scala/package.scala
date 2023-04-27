@@ -76,7 +76,7 @@ package object Huffman {
 			}
 			aux(l, c, List())
 		}
-		def encontrar_car_menor(l:List[(Char,Int)]):(Char,Int) = {
+		def encontrar_tupla_menor(l:List[(Char,Int)]):(Char,Int) = {
 			def aux(l:List[(Char,Int)],result:(Char,Int)):(Char,Int) = {
 				if(l.isEmpty)
 					result
@@ -94,7 +94,7 @@ package object Huffman {
 				result
 			else
 			{
-				val tupla_menor = encontrar_car_menor(f)
+				val tupla_menor = encontrar_tupla_menor(f)
 				val nueva_hoja = Hoja(tupla_menor(0), tupla_menor(1))
 				val lista_sin_tupla_menor = eliminar_car_de_lista(f, tupla_menor(0))
 				listaDeHojasOrdenadas_aux(lista_sin_tupla_menor, tupla_menor(1), result ++ List(nueva_hoja))	
