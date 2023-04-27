@@ -116,10 +116,6 @@ package object Huffman {
 			val arbol1 = arboles.head
 			val arbol2 = arboles.tail.head
 			def combinar_arboles_en_lista(l:List[ArbolH], arbol_mayor:ArbolH, arbol_menor:ArbolH):List[ArbolH] = {
-				def obtener_lista_de_cars_de_arbol(arbol:ArbolH):List[Char] = arbol match{
-					case Nodo(i, d, cars, p) => cars
-					case Hoja(car, peso) => List(car)
-				}
 				def filtrar_lista(l:List[ArbolH], filtro:ArbolH=>Boolean):List[ArbolH] = {
 					def filtrar_lista_aux(l:List[ArbolH], filtro:ArbolH=>Boolean, result:List[ArbolH]):List[ArbolH] = {
 						if(l.isEmpty)
@@ -132,7 +128,7 @@ package object Huffman {
 					}
 					filtrar_lista_aux(l, filtro, List())
 				}
-				val lista_de_cars = obtener_lista_de_cars_de_arbol(arbol_mayor) ++ obtener_lista_de_cars_de_arbol(arbol_menor)
+				val lista_de_cars = cars(arbol_mayor) ++ cars(arbol_menor)
 				val combinacion = Nodo(arbol_mayor, arbol_menor, lista_de_cars, peso(arbol_mayor) + peso(arbol_menor))
 
 				def peso_menor_igual_que(n:Int):ArbolH=>Boolean = {
